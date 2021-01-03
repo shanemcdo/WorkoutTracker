@@ -57,7 +57,6 @@ class GuiWorkoutTracker(WorkoutTracker):
         text = self.title_font.render(title_string, True, self.WHITE)
         self.screen.blit(text, (self.window_size[0] / 2 - text.get_size()[0] / 2, 0))
 
-
     def run(self):
         """Run the main loop"""
         self.running = True
