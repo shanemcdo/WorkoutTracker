@@ -40,6 +40,12 @@ class GuiWorkoutTracker(WorkoutTracker):
         pygame.draw.line(self.screen, self.RED, pos, (pos[0] + size[0], pos[1] + size[1]), width)
         pygame.draw.line(self.screen, self.RED, (pos[0], pos[1] + size[1]), (pos[0] + size[0], pos[1]), width)
 
+    def draw_check(self, pos: (int, int), size: (int, int), width: int = 1):
+        """Draw a green check at {pos} with a size of {size} and a width of {width}"""
+        middle = (pos[0] + size[0] / 2, pos[1] + size[1] / 2)
+        pygame.draw.line(self.screen, self.GREEN, (pos[0], middle[1]), (middle[0], pos[1] + size[1]), width)
+        pygame.draw.line(self.screen, self.GREEN, (middle[0], pos[1] + size[1]), (pos[0] + size[0], pos[1]), width)
+
     def draw_empty_calendar(self):
         """Draw an empty calendar"""
         top_line_height = self.window_size[1] / 9
