@@ -12,13 +12,18 @@ class WorkoutTracker:
         self.data = {}
         self.filename = filename
 
-    def new_data(self):
-        """Create an empty datasheet for the year 2021"""
-        current_date = date(2021, 1, 1)
+    def new_month(self, month: int, year: int):
+        """Create new data for a single month"""
+        current_date = date(year, month, 1)
         one_day = timedelta(1)
-        while current_date.year != 2022:
+        while current_date.month == month:
             self.data[current_date.isoformat()] = False
             current_date += one_day
+
+    def new_data(self):
+        """Create an empty datasheet for the year 2021"""
+        current_date = date.today()
+        self.new_month(current_date.month, current_date.year)
 
     def save_data(self, filename: str = None):
         """write data to the file name saved under self.filename"""

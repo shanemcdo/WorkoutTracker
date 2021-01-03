@@ -111,9 +111,11 @@ class GuiWorkoutTracker(WorkoutTracker):
         pos_offset = (22, 22)
         size_offset = (pos_offset[0] * 2, pos_offset[1] * 2)
         today = date.today()
+        no_days = True
         for key, val in self.data.items():
             d = date.fromisoformat(key)
             if d.year == self.selected_date.year and d.month == self.selected_date.month:
+                no_days = False
                 while d.isoweekday() % 7 != current_x:
                     current_x += 1
                 real_pos = self.calendar_to_window((current_x, current_y))
@@ -127,6 +129,8 @@ class GuiWorkoutTracker(WorkoutTracker):
                 if current_x > 6:
                     current_x = 0
                     current_y += 1
+        if no_days:
+            self.new_month(self.selected_date.month, self.selected_date.year)
 
     def run(self):
         """Run the main loop"""
