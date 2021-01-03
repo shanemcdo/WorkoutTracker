@@ -31,7 +31,6 @@ class GuiWorkoutTracker(WorkoutTracker):
         self.title_font = pygame.font.SysFont('Arial', int(self.window_size[1] / 12))
         self.corner_number_font = pygame.font.SysFont('Arial', int(self.window_size[1]/ 35))
         self.selected_date = date.today()
-        self.days = [[None for i in range(7)] for j in range(6)]
 
     def quit(self):
         """close the main loop and save the data"""
@@ -79,6 +78,9 @@ class GuiWorkoutTracker(WorkoutTracker):
             if new_month < 1:
                 new_month += 12
                 new_year -= 1
+                if new_year == 2020:
+                    new_month = 1
+                    new_year = 2021
             if new_month > 12:
                 new_month -= 12
                 new_year += 1
@@ -87,8 +89,11 @@ class GuiWorkoutTracker(WorkoutTracker):
     def mouse_input(self):
         """Handle mouse input"""
         pos = pygame.mouse.get_pos()
-        real_pos = self.window_to_calendar(pos)
-        self.toggle_day(self.days[real_pos[1]][real_pos[0]])
+        if pos[1] > self.scale[1]:
+            real_pos = self.window_to_calendar(pos)
+            day = self.days[real_pos[1]][real_pos[0]]
+            if day != None:
+                self.toggle_day(day)
 
     def calendar_to_window(self, pos: (int, int)) -> (int, int):
         """Takes an input in coordinates of what box is selected and translates that into pixel coordinates"""
@@ -100,6 +105,7 @@ class GuiWorkoutTracker(WorkoutTracker):
 
     def draw_days(self):
         """Draw the contents of the calendar"""
+        self.days = [[None for i in range(7)] for j in range(6)]
         current_x = current_y = 0
         corner_offset = (3, 0)
         pos_offset = (22, 22)
@@ -110,12 +116,11 @@ class GuiWorkoutTracker(WorkoutTracker):
             if d.year == self.selected_date.year and d.month == self.selected_date.month:
                 while d.isoweekday() % 7 != current_x:
                     current_x += 1
-                self.days[current_y][current_x] = key
                 real_pos = self.calendar_to_window((current_x, current_y))
                 corner_number = self.corner_number_font.render(str(d.day), True, self.WHITE)
                 self.screen.blit(corner_number, (real_pos[0] + corner_offset[0], real_pos[1] + corner_offset[1]))
-                # if d <= today:
-                if 1:
+                if d <= today:
+                    self.days[current_y][current_x] = key
                     draw_func = self.draw_check if val else self.draw_cross
                     draw_func((real_pos[0] + pos_offset[0], real_pos[1] + pos_offset[1]), (self.scale[0] - size_offset[0], self.scale[1] - size_offset[1]), 10)
                 current_x += 1
