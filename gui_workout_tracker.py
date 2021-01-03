@@ -9,6 +9,8 @@ class GuiWorkoutTracker(WorkoutTracker):
 
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
+    GREEN = (0, 255, 0)
+    RED = (255, 0, 0)
 
     def __init__(self, filename: str = 'data.json', window_size: (int, int) = (700, 700), window_pos: (int, int) = (15, 30)):
         super().__init__(filename)
@@ -28,11 +30,15 @@ class GuiWorkoutTracker(WorkoutTracker):
         self.day_font = pygame.font.SysFont('Arial', int(self.window_size[1] / 23))
         self.title_font = pygame.font.SysFont('Arial', int(self.window_size[1] / 10.5))
 
-
     def quit(self):
         """close the main loop and save the data"""
         self.save_data()
         self.running = False
+
+    def draw_cross(self, pos: (int, int), size: (int, int), width: int = 1):
+        """Draw a red cross at {pos} with a size of {size} and a width of {width}"""
+        pygame.draw.line(self.screen, self.RED, pos, (pos[0] + size[0], pos[1] + size[1]), width)
+        pygame.draw.line(self.screen, self.RED, (pos[0], pos[1] + size[1]), (pos[0] + size[0], pos[1]), width)
 
     def draw_empty_calendar(self):
         """Draw an empty calendar"""
