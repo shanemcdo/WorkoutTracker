@@ -31,6 +31,7 @@ class GuiWorkoutTracker(WorkoutTracker):
         self.title_font = pygame.font.SysFont('Arial', int(self.window_size[1] / 12))
         self.corner_number_font = pygame.font.SysFont('Arial', int(self.window_size[1]/ 35))
         self.selected_date = date.today()
+        self.days = [[None for i in range(7)] for j in range(6)]
 
     def quit(self):
         """close the main loop and save the data"""
@@ -83,9 +84,19 @@ class GuiWorkoutTracker(WorkoutTracker):
                 new_year += 1
             self.selected_date = self.selected_date.replace(new_year, new_month)
 
+    def mouse_input(self):
+        """Handle mouse input"""
+        pos = pygame.mouse.get_pos()
+        real_pos = self.window_to_calendar(pos)
+        self.toggle_day(self.days[real_pos[1]][real_pos[0]])
+
     def calendar_to_window(self, pos: (int, int)) -> (int, int):
         """Takes an input in coordinates of what box is selected and translates that into pixel coordinates"""
         return pos[0] * self.scale[0], (pos[1] + 1) * self.scale[1]
+
+    def window_to_calendar(self, pos: (int, int)) -> (int, int):
+        """Takes an input in coordinates of pixel coordinates and translates that into what box is selected"""
+        return int(pos[0] / self.scale[0]), int(pos[1] / self.scale[1]) - 1
 
     def draw_days(self):
         """Draw the contents of the calendar"""
@@ -99,6 +110,7 @@ class GuiWorkoutTracker(WorkoutTracker):
             if d.year == self.selected_date.year and d.month == self.selected_date.month:
                 while d.isoweekday() % 7 != current_x:
                     current_x += 1
+                self.days[current_y][current_x] = key
                 real_pos = self.calendar_to_window((current_x, current_y))
                 corner_number = self.corner_number_font.render(str(d.day), True, self.WHITE)
                 self.screen.blit(corner_number, (real_pos[0] + corner_offset[0], real_pos[1] + corner_offset[1]))
@@ -111,7 +123,6 @@ class GuiWorkoutTracker(WorkoutTracker):
                     current_x = 0
                     current_y += 1
 
-
     def run(self):
         """Run the main loop"""
         self.running = True
@@ -121,6 +132,8 @@ class GuiWorkoutTracker(WorkoutTracker):
                     self.quit()
                 elif event.type == pygame.KEYDOWN:
                     self.keyboard_input(event.key)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.mouse_input()
             self.screen.fill(self.BLACK)
             self.draw_empty_calendar()
             self.draw_days()
