@@ -112,9 +112,11 @@ class GuiWorkoutTracker(WorkoutTracker):
         size_offset = (pos_offset[0] * 2, pos_offset[1] * 2)
         today = date.today()
         no_days = True
+        leg_day = False
         for key, val in self.data.items():
             d = date.fromisoformat(key)
             if d.year == self.selected_date.year and d.month == self.selected_date.month:
+                leg_day = not leg_day
                 no_days = False
                 while d.isoweekday() % 7 != current_x:
                     current_x += 1
@@ -125,6 +127,8 @@ class GuiWorkoutTracker(WorkoutTracker):
                     self.days[current_y][current_x] = key
                     draw_func = self.draw_check if val else self.draw_cross
                     draw_func((real_pos[0] + pos_offset[0], real_pos[1] + pos_offset[1]), (self.scale[0] - size_offset[0], self.scale[1] - size_offset[1]), 10)
+                text = self.corner_number_font.render('Leg day' if leg_day else 'Arm day', True, self.WHITE)
+                self.screen.blit(text, (real_pos[0] + self.scale[0] / 15, real_pos[1] + self.scale[1] * 0.75))
                 current_x += 1
                 if current_x > 6:
                     current_x = 0
