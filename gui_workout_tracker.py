@@ -114,9 +114,9 @@ class GuiWorkoutTracker(WorkoutTracker):
         no_days = True
         leg_day = False
         for key, val in self.data.items():
+            leg_day = not leg_day
             d = date.fromisoformat(key)
             if d.year == self.selected_date.year and d.month == self.selected_date.month:
-                leg_day = not leg_day
                 no_days = False
                 while d.isoweekday() % 7 != current_x:
                     current_x += 1
