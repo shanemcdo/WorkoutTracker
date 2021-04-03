@@ -136,6 +136,18 @@ class GuiWorkoutTracker(WorkoutTracker):
         if no_days:
             self.new_month(self.selected_date.month, self.selected_date.year)
 
+    def draw_streak(self):
+        streak = 0
+        today = date.today()
+        for key, val in self.data.items():
+            if date.fromisoformat(key) > today:
+                break
+            if val:
+                streak += 1
+            else:
+                streak = 0
+        self.screen.blit(self.day_font.render(f'Streak: {streak}', True, self.WHITE), (10, 10))
+
     def run(self):
         """Run the main loop"""
         self.running = True
@@ -150,6 +162,7 @@ class GuiWorkoutTracker(WorkoutTracker):
             self.screen.fill(self.BLACK)
             self.draw_empty_calendar()
             self.draw_days()
+            self.draw_streak()
             pygame.display.update()
 
 if __name__ == '__main__': # driver code
