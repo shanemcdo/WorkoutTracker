@@ -85,6 +85,8 @@ class GuiWorkoutTracker(WorkoutTracker):
                 new_month -= 12
                 new_year += 1
             self.selected_date = self.selected_date.replace(new_year, new_month)
+        elif key == pygame.K_SPACE:
+            self.data[date.today().isoformat()] = not self.data[date.today().isoformat()]
 
     def mouse_input(self):
         """Handle mouse input"""
