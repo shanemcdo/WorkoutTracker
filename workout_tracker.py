@@ -38,6 +38,7 @@ class WorkoutTracker:
             filename = self.filename
         with open(self.filename, 'r') as f:
             self.data = json.load(f)
+            self.data = {key: self.data[key] for key in sorted(self.data)}# sort data
 
     def toggle_day(self, day: str):
         """toggle the boolean value of a day"""
