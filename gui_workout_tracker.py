@@ -88,7 +88,7 @@ class GuiWorkoutTracker(WorkoutTracker):
         elif key == pygame.K_SPACE:
             self.data[date.today().isoformat()] = not self.data[date.today().isoformat()]
         elif key == pygame.K_q or key == pygame.K_ESCAPE:
-            self.running = False
+            self.quit()
 
     def mouse_input(self):
         """Handle mouse input"""
