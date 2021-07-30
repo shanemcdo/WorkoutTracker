@@ -84,7 +84,10 @@ class GuiWorkoutTracker(WorkoutTracker):
             if new_month > 12:
                 new_month -= 12
                 new_year += 1
-            self.selected_date = self.selected_date.replace(new_year, new_month)
+            try:
+                self.selected_date = self.selected_date.replace(new_year, new_month)
+            except:
+                self.selected_date = self.selected_date.replace(new_year, new_month, 1)
         elif key == pygame.K_SPACE:
             self.data[date.today().isoformat()] = not self.data[date.today().isoformat()]
         elif key == pygame.K_q or key == pygame.K_ESCAPE:
