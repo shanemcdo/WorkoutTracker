@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """gui calendar to track exersize data inherits WorkoutTracker from workout_tracker"""
 
 from workout_tracker import WorkoutTracker
