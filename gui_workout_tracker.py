@@ -173,5 +173,5 @@ class GuiWorkoutTracker(WorkoutTracker):
             pygame.display.update()
 
 if __name__ == '__main__': # driver code
-    tracker = GuiWorkoutTracker(r'C:\Users\Shane\Dropbox\WorkoutData.json')
+    tracker = GuiWorkoutTracker(os.environ.get('WORKOUT_DATA_PATH', 'data.json'))
     tracker.run()
