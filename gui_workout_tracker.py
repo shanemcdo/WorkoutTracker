@@ -76,7 +76,7 @@ class GuiWorkoutTracker(WorkoutTracker):
         """Handle keyboard input"""
         if key == pygame.K_RIGHT or key == pygame.K_LEFT:
             new_year = self.selected_date.year
-            new_month = self.selected_date.month + (1 if key == pygame.K_RIGHT else - 1)
+            new_month = self.selected_date.month + (1 if key == pygame.K_RIGHT else -1)
             if new_month < 1:
                 new_month += 12
                 new_year -= 1
