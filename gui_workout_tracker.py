@@ -33,6 +33,7 @@ class GuiWorkoutTracker(WorkoutTracker):
         self.title_font = pygame.font.SysFont('Arial', int(self.window_size[1] / 12))
         self.corner_number_font = pygame.font.SysFont('Arial', int(self.window_size[1]/ 35))
         self.selected_date = date.today()
+        self.saved = True
 
     def quit(self):
         """close the main loop and save the data"""
@@ -49,6 +50,19 @@ class GuiWorkoutTracker(WorkoutTracker):
         middle = (pos[0] + size[0] / 2, pos[1] + size[1] / 2)
         pygame.draw.line(self.screen, GREEN, (pos[0], middle[1]), (middle[0], pos[1] + size[1]), width)
         pygame.draw.line(self.screen, GREEN, (middle[0], pos[1] + size[1]), (pos[0] + size[0], pos[1]), width)
+
+    def draw_saved(self):
+        """Draw in the top right corner whether or not the changes have been saved"""
+        padding = 10
+        r = self.window_size[1] / 21 - padding
+        pos = (self.window_size[0] - r - padding, r + padding)
+        if self.saved:
+            color = GREEN
+            self.draw_check((pos[0] - r / 2, pos[1] - r / 2), (r, r), 4)
+        else:
+            color = RED
+            self.draw_cross((pos[0] - r / 2 - 1, pos[1] - r / 2), (r, r), 4)
+        pygame.draw.circle(self.screen, color, pos, r, 2)
 
     def draw_empty_calendar(self):
         """Draw an empty calendar"""
@@ -94,6 +108,18 @@ class GuiWorkoutTracker(WorkoutTracker):
             self.data[date.today().isoformat()] = not self.data[date.today().isoformat()]
         elif key == pygame.K_q or key == pygame.K_ESCAPE:
             self.quit()
+        elif key == pygame.K_s:
+            self.save_data()
+
+    def save_data(self):
+        """Save data to file and reset save flag"""
+        super().save_data()
+        self.saved = True
+
+    def toggle_day(self, day: str):
+        """Toggle a day and change if saved flag"""
+        super().toggle_day(day)
+        self.saved = False
 
     def mouse_input(self):
         """Handle mouse input"""
@@ -170,6 +196,7 @@ class GuiWorkoutTracker(WorkoutTracker):
             self.draw_empty_calendar()
             self.draw_days()
             self.draw_streak()
+            self.draw_saved()
             pygame.display.update()
 
 if __name__ == '__main__': # driver code
