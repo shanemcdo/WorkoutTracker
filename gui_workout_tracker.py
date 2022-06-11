@@ -58,10 +58,11 @@ class GuiWorkoutTracker(WorkoutTracker):
         pos = (self.window_size[0] - r - padding, r + padding)
         if self.saved:
             color = GREEN
-            self.draw_check((pos[0] - r / 2, pos[1] - r / 2), (r, r), 4)
+            draw_fn = self.draw_check
         else:
             color = RED
-            self.draw_cross((pos[0] - r / 2 - 1, pos[1] - r / 2), (r, r), 4)
+            draw_fn = self.draw_cross
+        draw_fn((pos[0] - r / 2 - 1, pos[1] - r / 2), (r, r), 4)
         pygame.draw.circle(self.screen, color, pos, r, 2)
 
     def draw_empty_calendar(self):
