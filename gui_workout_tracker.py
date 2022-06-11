@@ -22,7 +22,7 @@ class GuiWorkoutTracker(WorkoutTracker):
         try:
             self.get_data()
             if self.data == {}:
-                raise 'Data empty'
+                raise RuntimeError('Data empty')
         except:
             self.new_data()
         self.scale = (self.window_size[0] / 7, self.window_size[1] / 7)
