@@ -106,7 +106,7 @@ class GuiWorkoutTracker(WorkoutTracker):
             except:
                 self.selected_date = self.selected_date.replace(new_year, new_month, 1)
         elif key == pygame.K_SPACE:
-            self.data[date.today().isoformat()] = not self.data[date.today().isoformat()]
+            self.toggle_day(date.today().isoformat())
         elif key == pygame.K_q or key == pygame.K_ESCAPE:
             self.quit()
         elif key == pygame.K_s:
