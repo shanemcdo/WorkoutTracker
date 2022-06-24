@@ -161,7 +161,7 @@ class GuiWorkoutTracker(WorkoutTracker):
                     self.days[current_y][current_x] = key
                     draw_func = self.draw_check if val else self.draw_cross
                     draw_func((real_pos[0] + pos_offset[0], real_pos[1] + pos_offset[1]), (self.scale[0] - size_offset[0], self.scale[1] - size_offset[1]), 10)
-                text = self.corner_number_font.render('Full Body' if d.isoweekday() in (1, 3, 5) else 'Cardio', True, WHITE)
+                text = self.get_split_text(d.isoweekday())
                 self.screen.blit(text, (real_pos[0] + self.scale[0] / 15, real_pos[1] + self.scale[1] * 0.75))
                 current_x += 1
                 if current_x > 6:
@@ -181,6 +181,24 @@ class GuiWorkoutTracker(WorkoutTracker):
             else:
                 streak = 0
         self.screen.blit(self.day_font.render(f'Streak: {streak}', True, WHITE), (10, 10))
+
+    def get_split_text(self, day: int) -> pygame.Surface:
+        '''
+        :day: int, the number corresponding to the day of the week e.g. 1 = monday, 2 = tuesday, ..., 6 = saturday, 7 = sunday
+        '''
+        s = 'Full Body' if day in (1, 3, 5) else 'Cardio'
+        # UNCOMMENT FOR PPL
+        # s = [
+        #     '', # First is blank because 0 is not an isoweekday
+        #     'push',
+        #     'pull',
+        #     'legs',
+        #     'push',
+        #     'pull',
+        #     'legs',
+        #     'cardio'
+        # ][day]
+        return self.corner_number_font.render(s, True, WHITE)
 
     def run(self):
         """Run the main loop"""
