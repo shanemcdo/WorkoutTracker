@@ -161,8 +161,8 @@ class GuiWorkoutTracker(WorkoutTracker):
                     self.days[current_y][current_x] = key
                     draw_func = self.draw_check if val else self.draw_cross
                     draw_func((real_pos[0] + pos_offset[0], real_pos[1] + pos_offset[1]), (self.scale[0] - size_offset[0], self.scale[1] - size_offset[1]), 10)
-                text = self.get_split_text(d.isoweekday())
-                self.screen.blit(text, (real_pos[0] + self.scale[0] / 15, real_pos[1] + self.scale[1] * 0.75))
+                # text = self.get_split_text(d.isoweekday())
+                # self.screen.blit(text, (real_pos[0] + self.scale[0] / 15, real_pos[1] + self.scale[1] * 0.75))
                 current_x += 1
                 if current_x > 6:
                     current_x = 0
