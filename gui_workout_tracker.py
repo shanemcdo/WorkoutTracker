@@ -186,16 +186,17 @@ class GuiWorkoutTracker(WorkoutTracker):
         '''
         :day: int, the number corresponding to the day of the week e.g. 1 = monday, 2 = tuesday, ..., 6 = saturday, 7 = sunday
         '''
-        s = [
-            '', # First is blank because 0 is not an isoweekday
-            'Push',
-            'Pull',
-            'Legs',
-            'Push',
-            'Pull',
-            'Legs',
-            'Rest'
-        ][day]
+        s = 'Full Body' if day in (1, 3, 5) else 'Cardio'
+        # s = [
+        #     '', # First is blank because 0 is not an isoweekday
+        #     'Push',
+        #     'Pull',
+        #     'Legs',
+        #     'Push',
+        #     'Pull',
+        #     'Legs',
+        #     'Rest'
+        # ][day]
         return self.corner_number_font.render(s, True, WHITE)
 
     def run(self):
